@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "got": "^13.0.0"
+  },
+  "name": "git-dumper",
+  "version": "1.0.0",
+  "main": "dump.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "oom-",
+  "license": "ISC",
+  "description": ""
+}
