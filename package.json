@@ -3,7 +3,7 @@
     "got": "^13.0.0"
   },
   "name": "git-dumper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dump.js",
   "type": "module",
   "scripts": {
