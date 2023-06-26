@@ -14,5 +14,9 @@
   },
   "author": "oom-",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oom-/simple-git-dumper"
+  }
 }
