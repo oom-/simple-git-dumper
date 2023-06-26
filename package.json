@@ -9,6 +9,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "git-dumper": "./dump.js"
+  },
   "author": "oom-",
   "license": "ISC",
   "description": ""
