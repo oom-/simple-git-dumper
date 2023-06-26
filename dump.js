@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import fs from "fs";
 import got from "got";
 import path from "path";
