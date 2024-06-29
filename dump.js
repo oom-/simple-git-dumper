@@ -3,6 +3,7 @@
 import fs from "fs";
 import got from "got";
 import path from "path";
+import { pipeline as streamPipeline } from 'node:stream/promises';
 
 let args = { url: null, dst: null };
 
@@ -51,9 +52,9 @@ async function downloadTree(baseUrl, tree, dst) {
     fs.mkdirSync(dst);
   }
 
-  
+
   for (let key of Object.keys(tree)) {
-    if (tree[key].files.length <= 0){
+    if (tree[key].files.length <= 0) {
       console.info(`ℹ: Skip "${key}" folder (it's empty)...`);
       continue;
     }
@@ -62,9 +63,12 @@ async function downloadTree(baseUrl, tree, dst) {
     fs.mkdirSync(destFolder, { recursive: true });
     for (let file of tree[key].files) {
       let destFile = destFolder + file;
-      await got
-        .stream(baseUrl + key + file)
-        .pipe(fs.createWriteStream(destFile));
+      if (fs.existsSync(destFile)) {
+        console.info(`ℹ: Skip "${destFile}" file (already exists)...`);
+        continue;
+      }
+      const stream = got.stream(baseUrl + key + file, { timeout: { request: 60000 } });
+      await streamPipeline(stream, fs.createWriteStream(destFile));
     }
   }
 }
@@ -81,7 +85,7 @@ try {
   let tree = await discoverTree(args.url);
   //-Download all files
   await downloadTree(args.url, tree, path.join(args.dst, ".git/"));
-  console.log("✅ done.");
+  console.log("✅ Done.");
 } catch (err) {
-  console.error("ERROR: ", err);
+  console.error("ERROR: ", err, err?.url);
 }

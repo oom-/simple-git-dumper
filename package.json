@@ -1,13 +1,14 @@
 {
   "dependencies": {
-    "got": "^13.0.0"
+    "got": "^14.4.1"
   },
   "name": "git-dumper",
   "version": "1.0.1",
   "main": "dump.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ncu": "npx npm-check-updates -i --format repo"
   },
   "bin": {
     "git-dumper": "./dump.js"
