@@ -29,7 +29,7 @@ function stateFile(dst) {
 function loadState(dst) {
   const f = stateFile(dst);
   if (fs.existsSync(f)) {
-    try { return JSON.parse(fs.readFileSync(f, "utf8")); } catch {}
+    try { return JSON.parse(fs.readFileSync(f, "utf8")); } catch { }
   }
   return { tree: null, downloaded: {} };
 }
@@ -105,7 +105,12 @@ async function downloadFile(url, destFile, retries = 5) {
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
       const tmp = destFile + ".tmp";
-      const stream = got.stream(url, { timeout: { request: 60000 } });
+      const stream = got.stream(url, {
+        timeout: {
+          connect: 10000,   // 10s to establish TCP connection
+          socket: 60000,    // 60s max inactivity between received bytes
+        }
+      });
       await streamPipeline(stream, fs.createWriteStream(tmp));
       fs.renameSync(tmp, destFile);
       return true;
